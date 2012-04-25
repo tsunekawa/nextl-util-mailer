@@ -1,0 +1,9 @@
+:recipient: DEFAULT_SENDER_ADDRESS
+:to: DEFAULT_DESTINATION_ADDRESS
+:smtp: 
+    :address: YOUR_SMTP_ADDRESS
+    :port: YOUR_PORT
+    :user_name: YOUR_USER_NAME
+    :password: YOUR_PASSOWRD
+    :auth: plain
+    :tls: true

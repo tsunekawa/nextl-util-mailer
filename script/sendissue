@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/init'
+NextL::Mailer.deliver_issues(:limit=>ARGV[0].to_i)
