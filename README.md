@@ -16,4 +16,8 @@ NextL-Util-Mailer はNextLのメーリングリストに関するスクリプト
 
 最新1件の Issue をメールとして転送する。
 
-  $ script/sendissue 1
+    $ script/sendissue 1
+
+ウェブアプリケーションとしてスクリプトを起動する。
+
+    $ rackup
