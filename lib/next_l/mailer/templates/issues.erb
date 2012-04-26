@@ -1,0 +1,7 @@
+from <%= @issue["user"]["login"] %>(<%= url_for(:user, :login=>@issue["user"]["login"]) %>)
+======================================
+
+<%= @issue["body"] %>
+
+======================================
+(fowarded from <%= url_for(:issue, :issue_number=> @issue["number"]) %>)
