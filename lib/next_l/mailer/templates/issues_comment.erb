@@ -1,0 +1,7 @@
+from <%= @comment["user"]["login"] %>(<%= url_for(:user, :login=>@comment["user"]["login"]) %>)
+======================================
+
+<%= @comment["body"] %>
+
+======================================
+(fowarded from <%= url_for(:issues_comment, :issue_number=> @issue["number"], :comment_id=> @comment["id"]) %>)
