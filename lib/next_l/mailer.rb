@@ -1,5 +1,8 @@
 #-*- coding:utf-8 -*-
 
+require 'mail'
+require 'erubis'
+
 # ja: NextLのメーリングリストにメールを送るモジュール
 class NextL::Mailer
 
@@ -39,7 +42,7 @@ class NextL::Mail
 
   # ja: GitHubのイベントに応じてタイトルと本文を変更する
   def render_by_event(event)
-    type = case event["type"]
+    result = case event["type"]
       when "IssuesEvent"
         render_issue(event)
       when "IssueCommentEvent"
@@ -47,21 +50,52 @@ class NextL::Mail
       else
         raise
     end
+
+    @mail.subject result[:subject]
+    @mail.body    result[:body]
+
     self
   end
 
   # ja: IssuesEventの場合の件名と本文をレンダリング
-  def render_issues(event)
-    issue    = event["payload"]["issue"]
-    @mail.subject "issue #{issue["number"]} - #{issue["title"]}"
-    @mail.body    event["payload"]["issue"]["body"]
+  def render_issue(event)
+    set_renderer("issues")
+    @issue    = event["payload"]["issue"]
+
+    {
+      :subject => "issue #{@issue["number"]} - #{@issue["title"]}",
+      :body    => @renderer.evaluate(self)
+    }
   end
 
   # ja: IssueCommentの場合の件名と本文をレンダリング
   def render_issues_comment(event)
-    issue    = event["payload"]["issue"]
-    @mail.subject "issue #{issue["number"]} - #{issue["title"]}"
-    @mail.body    event["payload"]["comment"]["body"]
+    set_renderer("issues_comment")
+    @issue = event["payload"]["issue"]
+    @comment = event["payload"]["comment"]
+
+    {
+      :subject => "issue #{@issue["number"]} - #{@issue["title"]}",
+      :body    => @renderer.evaluate(self)
+    }
+  end
+
+  def set_renderer(type)
+    template = File.read(File.join(::NextL::Config[:template_dir], "#{type}.erb"))
+    @renderer = Erubis::Eruby.new(template)
+  end
+
+  def url_for(type,context={})
+    case type.to_sym
+      when :issues_comment
+        "http://github.com/nabeta/enju_leaf/issues/#{context[:issue_number]}#issuecomment-#{context[:comment_id]}"
+      when :issue
+        "http://github.com/issues/#{context[:issue_number]}"
+      when :user
+        "http://github.com/#{context[:login]}"
+      else
+        raise
+    end
   end
 
   # ja: メールの送受信に関する処理は@mailに委譲する

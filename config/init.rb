@@ -16,3 +16,4 @@ Mail.defaults do
     :enable_starttls_auto => smtpconf[:tls]
   }
 end
+
