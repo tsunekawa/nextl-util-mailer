@@ -21,3 +21,12 @@ NextL-Util-Mailer はNextLのメーリングリストに関するスクリプト
 ウェブアプリケーションとしてスクリプトを起動する。
 
     $ rackup
+
+カスタマイズ(Customize)
+-----------------------
+
+メールの文面を変更するには、テンプレートを編集してください。
+
+    $ cd lib/next_l/mailer/templates
+    $ ( issues.erb または issues_comment.erb を編集 ...)
+
