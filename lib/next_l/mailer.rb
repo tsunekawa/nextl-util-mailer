@@ -28,7 +28,6 @@ class NextL::Mailer
   def deliver_issues(opts={})
     issues(opts).each{|mail|
       mail.deliver!
-      puts mail.subject
     }
   end
 end
@@ -51,8 +50,10 @@ class NextL::Mail
         raise
     end
 
-    @mail.subject result[:subject]
-    @mail.body    result[:body]
+    @mail.content_type 'text/plain'
+    @mail.charset = 'ISO-2022-JP'
+    @mail.subject      result[:subject]
+    @mail.body         result[:body]
 
     self
   end
