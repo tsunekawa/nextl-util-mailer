@@ -8,7 +8,7 @@ require 'mail'
 
 #Next-Lの活動を支援するユーティリティ
 module NextL
-  VERSION = "0.0.2"
+  VERSION = "0.0.3"
 
   autoload "EnjuRepo", File.expand_path(File.join(File.dirname(__FILE__), %w{ next_l enju_repo }))
   autoload "Mailer", File.expand_path(File.join(File.dirname(__FILE__), %w{ next_l mailer }))
