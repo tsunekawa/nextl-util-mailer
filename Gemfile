@@ -1,4 +1,5 @@
 source :rubygems
+gem 'rake'
 gem 'mail'
 gem 'sinatra'
 gem 'erubis'
