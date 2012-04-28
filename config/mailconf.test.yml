@@ -1,0 +1,9 @@
+:recipient: recipient@example.com
+:to: to@example.com
+:smtp: 
+    :address: smtp.example.com
+    :port: 587
+    :user_name: recipient
+    :password: test
+    :auth: plain
+    :tls: true
