@@ -24,6 +24,7 @@ describe "NextL::Mailer" do
 
   describe "#latest_log" do
     before :all do
+      Redis.current.flushdb
       @mailer = NextL::Mailer.new
       @mailer.deliver_issues(:limit=>0)
       @mail = Mail::TestMailer.deliveries.first
@@ -39,6 +40,25 @@ describe "NextL::Mailer" do
     it { subject[1][:to].should_not be_nil }
     it { subject[1][:subject].should_not be_nil }
     it { subject[1][:body].should_not be_nil }
+
+  end
+
+  context "after forwarding issues once" do
+    before :all do
+      Redis.current.flushdb
+      Mail::TestMailer.deliveries.clear
+      @mailer = NextL::Mailer.new
+      @mailer.stub!(:latest_log).and_return([
+	Time.now,
+	{:from=>"from@example.com", :to=>"to@example.com", :body=>"test"}
+      ])
+      @mailer.deliver_issues(:limit=>5)
+      @mails = Mail::TestMailer.deliveries
+    end
+
+    it "no messages forwarded if mailer has checked now" do
+      @mails.should have(0).messages
+    end
 
   end
 end
