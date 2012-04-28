@@ -2,7 +2,7 @@ describe "NextL::Mailer" do
   include Mail::Matchers
 
   subject { NextL::Mailer.new }
-  it { should be_an_instance_of NextL::Mailer }
+  it { should be_an_instance_of NextL::Mailer::Mailer }
   its(:issues){ should be_an_instance_of Array }
   its(:log){
     should be_an_instance_of Array
@@ -17,7 +17,7 @@ describe "NextL::Mailer" do
     end
 
     it { should have_sent_email }
-    it { @mail.log.have(1).logs }
+    it { @mailer.log.should have(1).logs }
     it { @mail.content_type.should =="text/plain; charset=ISO-2022-JP" }
   end
 
@@ -32,12 +32,13 @@ describe "NextL::Mailer" do
     it { should be_an_instance_of Array }
     it {
       subject.each do |record|
-        redord.should be_an_instnce_of Array
-        record[0].should be_an_instance_of Date
+        record.should be_an_instance_of Array
+        record[0].should be_an_instance_of Time
 	record[1].should be_an_instance_of Hash
-	[:recipient, :to, :subject, :body ].each do |key|
-	  record[1][:key].should_not be_nil
-	end
+	record[1][:from].should_not be_nil
+	record[1][:to].should_not be_nil
+	record[1][:subject].should_not be_nil
+	record[1][:body].should_not be_nil
       end
     }
   end
@@ -53,11 +54,12 @@ describe "NextL::Mailer" do
     it { should_not be_nil }
     it { should be_an_instance_of Array }
     it { should eq @mailer.log.last }
-    it { subject[0].should be_an_instance_of Date }
+    it { subject[0].should be_an_instance_of Time }
     it { subject[1].should be_an_instance_of Hash }
-    [:recipient, :to, :subject, :body ].each do |key|
-      it { subject[1][:key].should_not be_nil }
-    end
+    it { subject[1][:from].should_not be_nil }
+    it { subject[1][:to].should_not be_nil }
+    it { subject[1][:subject].should_not be_nil }
+    it { subject[1][:body].should_not be_nil }
 
   end
 end
