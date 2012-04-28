@@ -9,3 +9,8 @@ Mail.defaults do
   delivery_method :test
 end
 
+ENV["REDISTOGO_URL"] ||= "redis://user:pass@localhost:6789"
+uri = URI.parse(ENV["REDISTOGO_URL"])
+p uri
+Redis.current = Redis.new(:host=>uri.host, :port=>uri.port, :password=>uri.password)
+Redis.current.flushdb

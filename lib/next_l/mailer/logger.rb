@@ -24,7 +24,7 @@ module NextL::Mailer::Logger
 
   class Logger
     def initialize
-      @log = Array.new
+      @log = Redis::List.new("next_l:mailer:log", :marshal=>true)
     end
 
     # ja: ログの記録
@@ -39,7 +39,7 @@ module NextL::Mailer::Logger
 
     # ja: ログの表示
     def log
-      @log ||= Array.new
+      @log.to_a
     end
 
     # ja: 最新のログを表示する

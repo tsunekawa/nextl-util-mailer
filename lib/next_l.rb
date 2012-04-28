@@ -5,6 +5,8 @@ require 'yaml'
 require 'json'
 require 'open-uri'
 require 'mail'
+require 'redis'
+require 'redis/list'
 
 #Next-Lの活動を支援するユーティリティ
 module NextL
