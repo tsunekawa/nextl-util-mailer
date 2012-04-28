@@ -14,7 +14,14 @@ class NextL::Mailer::Mailer
   # ja: enju_leaf に投稿された Issue のメールを作成する
   def issues(opts={})
     limit = (opts[:limit] || -1).to_i
+    latest_check = latest_log.nil? ? nil : latest_log[0]
     issues   = ::NextL::EnjuRepo.issues[0..limit].reverse
+
+    unless latest_check.nil? then
+      issues   = issues.find_all{|issue|
+	Time.iso8601(issue["created_at"]) > latest_check
+      }
+    end
 
     issues.map do |event|
       mail = create_mail do |mail|
