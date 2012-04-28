@@ -3,6 +3,8 @@ gem 'rake'
 gem 'mail'
 gem 'sinatra'
 gem 'erubis'
+gem 'redis'
+gem 'redis-objects'
 
 group :development do
   gem 'rspec'

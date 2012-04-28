@@ -1,2 +1,5 @@
 config/mailconf.yml
+tmp
 .rvmrc
+.rdb
+.pid
