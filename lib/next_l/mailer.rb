@@ -2,6 +2,7 @@
 
 require 'mail'
 require 'erubis'
+require 'time'
 
 module NextL::Mailer
 
