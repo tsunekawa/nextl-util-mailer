@@ -1,5 +1,2 @@
-require_relative "../config/init"
-
-Mail.defaults do
-  delivery_method :test
-end
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "config/test"
