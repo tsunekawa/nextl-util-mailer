@@ -39,7 +39,7 @@ module NextL::Mailer::Logger
 
     # ja: ログの表示
     def log
-      @log.to_a
+      @log.values
     end
 
     # ja: 最新のログを表示する

@@ -1,4 +1,5 @@
 config/mailconf.yml
+config/redis.production.conf
 tmp
 .rvmrc
 .rdb

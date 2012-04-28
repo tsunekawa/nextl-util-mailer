@@ -14,7 +14,10 @@ class NextL::Mailer::Mailer
   # ja: enju_leaf に投稿された Issue のメールを作成する
   def issues(opts={})
     limit = (opts[:limit] || -1).to_i
+    p latest_log
     latest_check = latest_log.nil? ? nil : latest_log[0]
+    latest_check = Time.parse(latest_check) if latest_check.instance_of? String
+
     issues   = ::NextL::EnjuRepo.issues[0..limit].reverse
 
     unless latest_check.nil? then

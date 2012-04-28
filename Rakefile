@@ -9,6 +9,7 @@ desc "spec test"
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = ['-fs --color --require spec_helper.rb']
 end
+task :spec =>["redis:test:restart"]
 task :default  => :spec
 
 namespace :redis do
@@ -21,7 +22,7 @@ namespace :redis do
 
     desc "stop redis server for test"
     task :stop do
-      sh "kill `cat ./tmp/redis.test.pid`"
+      sh "kill `cat ./tmp/redis.test.pid`" if File.exists? "./tmp/redis.test.pid"
     end
 
     desc "restart redis server for test"

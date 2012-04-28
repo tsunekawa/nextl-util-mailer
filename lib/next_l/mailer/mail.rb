@@ -72,10 +72,10 @@ class NextL::Mail
 
   def to_hash
     {
-      :from => @mail.from,
-      :to => @mail.to,
-      :subject => @mail.subject,
-      :body => @mail.body
+      :from => @mail.from.to_s,
+      :to => @mail.to.to_s,
+      :subject => @mail.subject.to_s,
+      :body => @mail.body.to_s
     }
   end
 
