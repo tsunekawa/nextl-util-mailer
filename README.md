@@ -9,7 +9,9 @@ NextL-Util-Mailer はNextLのメーリングリストに関するスクリプト
     $ git clone http://github.com/tsunekawa/nextl-util-mailer.git
     $ bundle install
     $ cp config/mailconf.yml.sample config/mailconf.yml
-    $ (edit config/mailconf.yml ...)
+    $ cp config/redis.production.conf.sample config/redis.production.conf
+    $ (edit config/mailconf.yml and config/redis.production.conf ...)
+    $ rake redis:production:start
 
 使い方(Usage)
 -------------
