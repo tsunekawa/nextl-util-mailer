@@ -15,6 +15,8 @@ class NextL::Mail
     result = case event["type"]
       when "IssuesEvent"
         render_issue(event)
+      when "PullRequestEvent"
+        render_pull_request(event)
       when "IssueCommentEvent"
         render_issues_comment(event)
       else
@@ -52,6 +54,18 @@ class NextL::Mail
     }
   end
 
+  # ja: PullRequestの場合の件名と本文をレンダリング
+  def render_pull_request(event)
+    set_renderer("pull_request")
+
+    @pull_request    = event["payload"]["pull_request"]
+
+    {
+      :subject => "pull request #{@pull_request["number"]} - #{@pull_request["title"]}",
+      :body    => @renderer.evaluate(self)
+    }
+  end
+
   def set_renderer(type)
     template = File.read(File.join(::NextL::Config[:template_dir], "#{type}.erb"))
     @renderer = Erubis::Eruby.new(template)
@@ -60,11 +74,13 @@ class NextL::Mail
   def url_for(type,context={})
     case type.to_sym
       when :issues_comment
-        "http://github.com/nabeta/enju_leaf/issues/#{context[:issue_number]}#issuecomment-#{context[:comment_id]}"
+        "https://github.com/nabeta/enju_leaf/issues/#{context[:issue_number]}#issuecomment-#{context[:comment_id]}"
       when :issue
-        "http://github.com/issues/#{context[:issue_number]}"
+        "https://github.com/issues/#{context[:issue_number]}"
       when :user
-        "http://github.com/#{context[:login]}"
+        "https://github.com/#{context[:login]}"
+      when :pull_request
+        "https://github.com/nabeta/enju_leaf/pull/#{context[:pull_request_number]}"
       else
         raise
     end
