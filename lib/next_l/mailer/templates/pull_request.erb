@@ -1,0 +1,7 @@
+from <%= @pull_request["user"]["login"] %>(<%= url_for(:user, :login=>@pull_request["user"]["login"]) %>)
+======================================
+
+<%= @pull_request["body"] %>
+
+======================================
+(forwarded from <%= url_for(:pull_request, :pull_request_number=> @pull_request["number"]) %>)
