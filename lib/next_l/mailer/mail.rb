@@ -35,11 +35,21 @@ class NextL::Mail
   def render_issue(event)
     set_renderer("issues")
     @issue    = event["payload"]["issue"]
+    @action = event["payload"]["action"]
+    subject = "issue #{@issue["number"]} #{@action} - #{@issue["title"]}"
 
+    case @action
+    when "closed", "reopened"
     {
-      :subject => "issue #{@issue["number"]} - #{@issue["title"]}",
+      :subject => subject,
+      :body    => "Issue #{@issue["number"]} is #{@action}.",
+    }
+    else
+    {
+      :subject => subject,
       :body    => @renderer.evaluate(self)
     }
+    end
   end
 
   # ja: IssueCommentの場合の件名と本文をレンダリング
